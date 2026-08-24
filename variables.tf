@@ -34,11 +34,6 @@ variable "private_subnet_name" {
   type        = string
 }
 
-variable "public_subnet_names" {
-  description = "Name tag values of existing public subnets (for NLB, recommend 2+ for HA)"
-  type        = list(string)
-}
-
 ###############################################################################
 # EC2
 ###############################################################################
@@ -54,40 +49,3 @@ variable "key_pair_name" {
   type        = string
 }
 
-###############################################################################
-# TLS / ACM
-###############################################################################
-
-variable "existing_acm_arn" {
-  description = "ARN of an existing ACM certificate. If set, the new ACM request is skipped."
-  type        = string
-  default     = ""
-}
-
-variable "create_acm_certificate" {
-  description = "Whether to request a new ACM certificate (email validation)"
-  type        = bool
-  default     = false
-}
-
-variable "domain_name" {
-  description = "Domain name for the new ACM certificate (required if create_acm_certificate = true)"
-  type        = string
-  default     = ""
-}
-
-variable "subject_alternative_names" {
-  description = "Additional SANs for the new ACM certificate"
-  type        = list(string)
-  default     = []
-}
-
-###############################################################################
-# NLB
-###############################################################################
-
-variable "nlb_listener_port" {
-  description = "Port the NLB TLS listener binds to"
-  type        = number
-  default     = 9001
-}

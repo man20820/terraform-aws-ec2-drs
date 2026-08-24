@@ -16,13 +16,6 @@ data "aws_subnet" "private" {
   }
 }
 
-data "aws_subnets" "public" {
-  filter {
-    name   = "tag:Name"
-    values = var.public_subnet_names
-  }
-}
-
 ###############################################################################
 # Latest Amazon Linux 2023 AMI
 ###############################################################################
