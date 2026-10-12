@@ -12,12 +12,33 @@ module "ec2_sg" {
 
   # Ingress: allow HTTP (port 80) from the VPC CIDR (NLB forwards within VPC)
   ingress_with_cidr_blocks = [
+    # {
+    #   from_port   = 80
+    #   to_port     = 80
+    #   protocol    = "tcp"
+    #   description = "HTTP from VPC (NLB health checks and traffic)"
+    #   cidr_blocks = data.aws_vpc.this.cidr_block
+    # },
     {
       from_port   = 80
       to_port     = 80
       protocol    = "tcp"
-      description = "HTTP from VPC (NLB health checks and traffic)"
-      cidr_blocks = data.aws_vpc.this.cidr_block
+      description = "HTTP Internet"
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      description = "HTTPS Internet"
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      description = "SSH Internet"
+      cidr_blocks = "0.0.0.0/0"
     },
   ]
 
