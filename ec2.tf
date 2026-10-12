@@ -16,11 +16,11 @@ module "ec2" {
   associate_public_ip_address = true
   vpc_security_group_ids      = [module.ec2_sg.security_group_id]
 
-  user_data = base64encode(templatefile("${path.module}/templates/user_data.sh", {
+  user_data = templatefile("${path.module}/templates/user_data.sh", {
     project_name = var.project_name
-  }))
+  })
 
-  user_data_replace_on_change = true
+  user_data_replace_on_change = false
 
   tags = merge(var.tags, {
     Name = "${var.project_name}-nginx"
