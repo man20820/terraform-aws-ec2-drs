@@ -22,6 +22,15 @@ module "ec2" {
 
   user_data_replace_on_change = false
 
+  # IAM instance profile so the AWS DRS replication agent authenticates
+  # via the instance role instead of static access keys.
+  create_iam_instance_profile = true
+  iam_role_name               = "${var.project_name}-drs-agent-role"
+  iam_role_use_name_prefix    = false
+  iam_role_policies = {
+    drs_agent = "arn:aws:iam::aws:policy/AWSElasticDisasterRecoveryAgentInstallationPolicy"
+  }
+
   tags = merge(var.tags, {
     Name = "${var.project_name}-nginx"
   })
