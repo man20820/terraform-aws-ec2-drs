@@ -7,7 +7,7 @@ vpc_name            = "MAN-VPC"          # e.g. "production-vpc"
 private_subnet_name = "MAN-VPC-private-ap-southeast-3a"          # e.g. "private-subnet-a"
 
 # EC2
-key_pair_name = "swo_keypair"                # e.g. "my-keypair"
+key_pair_name = "swo_key"                # e.g. "my-keypair"
 
 # Tags (optional)
 # tags = {
