@@ -23,7 +23,6 @@ cat > /usr/share/nginx/html/index.html <<'HTML'
   <div class="card">
     <h1>${project_name}</h1>
     <p>Nginx is running successfully on this EC2 instance.</p>
-    <p><small>Served via NLB with TLS termination on port 9001</small></p>
   </div>
 </body>
 </html>

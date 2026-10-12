@@ -11,7 +11,7 @@ variable "aws_region" {
 variable "project_name" {
   description = "Project name used for resource naming"
   type        = string
-  default     = "ec2-nlb-tls"
+  default     = "ec2-drs-practice"
 }
 
 variable "tags" {
