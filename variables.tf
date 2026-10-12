@@ -34,6 +34,11 @@ variable "private_subnet_name" {
   type        = string
 }
 
+variable "public_subnet_name" {
+  description = "Name tag value of the existing public subnet (for EC2 with public IP)"
+  type        = string
+}
+
 ###############################################################################
 # EC2
 ###############################################################################
