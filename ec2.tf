@@ -28,7 +28,8 @@ module "ec2" {
   iam_role_name               = "${var.project_name}-drs-agent-role"
   iam_role_use_name_prefix    = false
   iam_role_policies = {
-    drs_agent = "arn:aws:iam::aws:policy/AWSElasticDisasterRecoveryAgentInstallationPolicy"
+    drs_agent_install = "arn:aws:iam::aws:policy/AWSElasticDisasterRecoveryAgentInstallationPolicy"
+    drs_agent_runtime = "arn:aws:iam::aws:policy/AWSElasticDisasterRecoveryAgentPolicy"
   }
 
   tags = merge(var.tags, {
