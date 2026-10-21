@@ -8,7 +8,8 @@ module "ec2" {
 
   name = "${var.project_name}-nginx"
 
-  ami           = data.aws_ssm_parameter.ubuntu2404.value
+  # ami           = data.aws_ssm_parameter.ubuntu2404.value
+  ami           = "ami-00e3b0c0a0de782cb"
   instance_type = var.instance_type
   key_name      = var.key_pair_name
 
