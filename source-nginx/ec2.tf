@@ -33,6 +33,9 @@ module "ec2" {
     drs_agent_runtime = "arn:aws:iam::aws:policy/service-role/AWSElasticDisasterRecoveryEc2InstancePolicy"
   }
 
+  # NOTE: AWS DRS-managed tags (AWSDRS, AWSElasticDisasterRecovery*) are left
+  # to DRS. The provider's ignore_tags block (see provider.tf) keeps Terraform
+  # from stripping them, so they are intentionally NOT listed here.
   tags = merge(var.tags, {
     Name = "${var.project_name}-nginx"
   })
