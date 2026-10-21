@@ -3,31 +3,36 @@
 #
 # "Protect recovered instance" / "Start reversed replication" require the
 # recovery instance's role to have the DRS recovery-instance and agent
-# permissions. These attach AWS-managed policies to the EXISTING shared role
-# without importing or mutating the role resource itself.
+# permissions. These attach AWS-managed policies to the EXISTING role
+# WITHOUT importing or mutating the role resource itself.
 #
-#   - AWSElasticDisasterRecoveryRecoveryInstancePolicy
-#       Lets the recovery instance register as a DRS recovery instance and
-#       participate in failback.
-#   - AWSElasticDisasterRecoveryEc2InstancePolicy
-#       Runtime permissions for the DRS replication agent (recovery instance
-#       acts as a source during reverse replication).
-#   - AWSElasticDisasterRecoveryAgentInstallationPolicy
-#       Allows the failback/replication agent to (re)install and authenticate
-#       via the instance role.
+# NOTE: `iam_instance_profile` on the recovery instance is the INSTANCE
+# PROFILE name, which is NOT necessarily the ROLE name. We resolve the real
+# role name from the instance profile via a data source so the attachments
+# target the correct role.
 ###############################################################################
 
+# Resolve the instance profile, then read the role it contains.
+data "aws_iam_instance_profile" "recovery" {
+  name = var.recovery_instance_profile_name
+}
+
+locals {
+  # The role actually used by the recovery instance's instance profile.
+  recovery_role_name = data.aws_iam_instance_profile.recovery.role_name
+}
+
 resource "aws_iam_role_policy_attachment" "recovery_drs_recovery_instance" {
-  role       = var.recovery_instance_role_name
+  role       = local.recovery_role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticDisasterRecoveryRecoveryInstancePolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "recovery_drs_ec2_instance" {
-  role       = var.recovery_instance_role_name
+  role       = local.recovery_role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticDisasterRecoveryEc2InstancePolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "recovery_drs_agent_install" {
-  role       = var.recovery_instance_role_name
+  role       = local.recovery_role_name
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticDisasterRecoveryAgentInstallationPolicy"
 }

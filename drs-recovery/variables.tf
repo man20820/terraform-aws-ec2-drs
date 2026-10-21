@@ -61,8 +61,8 @@ variable "recovery_launch_template_id" {
 # role (attachment only -- Terraform does not own/mutate the role itself).
 ###############################################################################
 
-variable "recovery_instance_role_name" {
-  description = "Name of the IAM role attached to the DRS recovery instance's instance profile"
+variable "recovery_instance_profile_name" {
+  description = "Name of the IAM instance profile attached to the DRS recovery instance (the real role name is resolved from this)"
   type        = string
   default     = "ec2-role-20250227042937428400000003"
 }
