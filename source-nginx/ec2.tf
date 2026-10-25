@@ -8,7 +8,8 @@ module "ec2" {
 
   name = "${var.project_name}-nginx"
 
-  ami           = data.aws_ssm_parameter.ubuntu2404.value
+  # ami           = data.aws_ssm_parameter.ubuntu2404.value
+  ami           = "ami-00e3b0c0a0de782cb"
   instance_type = var.instance_type
   key_name      = var.key_pair_name
 
@@ -33,6 +34,9 @@ module "ec2" {
     drs_recovery_failback = "arn:aws:iam::aws:policy/service-role/AWSElasticDisasterRecoveryRecoveryInstancePolicy"
   }
 
+  # NOTE: AWS DRS-managed tags (AWSDRS, AWSElasticDisasterRecovery*) are left
+  # to DRS. The provider's ignore_tags block (see provider.tf) keeps Terraform
+  # from stripping them, so they are intentionally NOT listed here.
   tags = merge(var.tags, {
     Name = "${var.project_name}-nginx"
   })

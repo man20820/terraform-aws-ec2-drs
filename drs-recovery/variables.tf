@@ -50,3 +50,19 @@ variable "recovery_launch_template_id" {
   type        = string
   default     = "lt-075c7f0ef61bd3ef2"
 }
+
+###############################################################################
+# IAM — recovery instance role
+#
+# The recovery instance uses a pre-existing, shared instance-profile role
+# (ec2-role-...). For AWS DRS failback ("Protect recovered instance" ->
+# reverse replication) to initialize, this role must carry the DRS recovery
+# and agent permissions. We attach the AWS-managed policies to the EXISTING
+# role (attachment only -- Terraform does not own/mutate the role itself).
+###############################################################################
+
+variable "recovery_instance_profile_name" {
+  description = "Name of the IAM instance profile attached to the DRS recovery instance (the real role name is resolved from this)"
+  type        = string
+  default     = "ec2-role-20250227042937428400000003"
+}

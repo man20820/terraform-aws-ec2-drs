@@ -10,7 +10,7 @@
 # failback job TERMINATES this instance and launches a replacement with a NEW
 # id, which makes this state stale. Guard rails below keep Terraform from
 # destroying or "correcting" the DRS-owned attributes:
-#   - prevent_destroy = true      -> Terraform refuses to delete these
+#   - prevent_destroy = false      -> Terraform refuses to delete these
 #   - ignore_changes              -> Terraform won't revert DRS-managed drift
 #
 # When DRS relaunches: update the ids in terraform.tfvars (or variables.tf),
@@ -72,7 +72,7 @@ resource "aws_instance" "recovery" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
     # DRS owns these; never let Terraform mutate or rebuild the instance.
     ignore_changes = [
       ami,
@@ -107,7 +107,7 @@ resource "aws_ebs_volume" "recovery_root" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
     ignore_changes  = [tags, tags_all, iops, throughput, size, type]
   }
 }
@@ -120,7 +120,7 @@ resource "aws_network_interface" "recovery_eni" {
   security_groups = [var.recovery_security_group_id]
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
     ignore_changes  = [tags, tags_all, private_ips, security_groups, attachment]
   }
 }
@@ -135,7 +135,7 @@ resource "aws_security_group" "recovery_shared_sg" {
   vpc_id = data.aws_vpc.this.id
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
     ignore_changes  = [ingress, egress, tags, tags_all, name, description]
   }
 }
@@ -148,7 +148,7 @@ resource "aws_launch_template" "recovery_lt" {
   name = "created-and-used-by-elastic-disaster-recovery-service-s-lca221ec40ff6106e-261410-044927"
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
     ignore_changes  = all
   }
 }
