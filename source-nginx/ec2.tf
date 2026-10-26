@@ -23,6 +23,17 @@ module "ec2" {
 
   user_data_replace_on_change = false
 
+  # Root volume — grow beyond the AMI default (Ubuntu 24.04 is 8 GiB).
+  # Ubuntu 24.04's cloud image auto-grows the root filesystem to fill the
+  # volume on first boot, so no manual resize is needed on a fresh launch.
+  root_block_device = {
+    size       = var.root_volume_size
+    type       = var.root_volume_type
+    encrypted  = true
+    throughput = 125
+    iops       = 3000
+  }
+
   # IAM instance profile so the AWS DRS replication agent authenticates
   # via the instance role instead of static access keys.
   create_iam_instance_profile = true

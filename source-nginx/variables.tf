@@ -49,6 +49,18 @@ variable "instance_type" {
   default     = "t3.micro"
 }
 
+variable "root_volume_size" {
+  description = "Size (GiB) of the root EBS volume"
+  type        = number
+  default     = 30
+}
+
+variable "root_volume_type" {
+  description = "Type of the root EBS volume (gp3, gp2, etc.)"
+  type        = string
+  default     = "gp3"
+}
+
 variable "key_pair_name" {
   description = "Name of existing EC2 key pair for SSH access"
   type        = string
