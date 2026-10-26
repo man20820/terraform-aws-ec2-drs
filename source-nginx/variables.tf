@@ -52,7 +52,7 @@ variable "instance_type" {
 variable "root_volume_size" {
   description = "Size (GiB) of the root EBS volume"
   type        = number
-  default     = 30
+  default     = 10
 }
 
 variable "root_volume_type" {
